@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const authorRouter = require('./routes/authors');
+const bookRouter = require('./routes/books');
 
 //const DATABASE_URL = 'mongodb://localhost:27017/mylibrary';
 const app = express();
@@ -29,5 +30,7 @@ db.once('open', () => console.log('connected to mongoose'));
 app.use('/', indexRouter);
 app.use('/authors', authorRouter);
 app.use('/authors/new', authorRouter);
+
+app.use('/books', bookRouter);
 
 app.listen(process.env.PORT || 3000);
