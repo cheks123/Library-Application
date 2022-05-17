@@ -62,7 +62,7 @@ async function renderNewPage(res, book, hasError = false){
         res.render('books/new', params)
     }
     catch{
-        res.redirect('books')
+        res.redirect('books/index')
     }
 }
 
