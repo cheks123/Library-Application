@@ -9,6 +9,7 @@ const imageMimeType = ['images/jpeg', 'images/png', 'images/gif']
 const upload = multer({
     dest: uploadPath,
     fileFilter: (req, file, callback)=>{
+        callback(null, imageMimeType.includes(file.mimetype));
 
     }
 })
@@ -23,7 +24,8 @@ router.get('/', async (req, res)=>{
 
 //New books route
 router.get('/new', async (req, res)=>{
-    renderNewPage(res, new Book())
+
+    renderNewPage(res, new Book());
     
 });
 
@@ -48,14 +50,14 @@ router.post('/', upload.single('cover'), async (req,res)=>{
         renderNewPage(res, book, true);
 
     }
-    res.send("Create book")
+    // res.send("Create book")
 });
 
 async function renderNewPage(res, book, hasError = false){
     try{
         const authors = await Author.find({});
         const params = {
-            authors:author,
+            authors:authors,
             book:book
         }
         if(hasError) params.errorMessage = 'Error creating book'

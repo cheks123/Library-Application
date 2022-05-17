@@ -32,6 +32,6 @@ app.use('/authors', authorRouter);
 app.use('/authors/new', authorRouter);
 
 app.use('/books', bookRouter);
-app.use('/books/new', bookRouter);
+
 
 app.listen(process.env.PORT || 3000);
