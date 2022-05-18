@@ -7,11 +7,11 @@ const path = require('path');
 const uploadPath = path.join('public', Book.coverImageBasePath);
 const imageMimeType = ['images/jpeg', 'images/png', 'images/gif']
 const upload = multer({
-    dest: uploadPath,
-    fileFilter: (req, file, callback)=>{
-        callback(null, imageMimeType.includes(file.mimetype));
+    dest: uploadPath
+    // fileFilter: (req, file, callback)=>{
+    //     callback(null, imageMimeType.includes(file.mimetype));
 
-    }
+    // }
 })
 
 
@@ -31,7 +31,7 @@ router.get('/new', async (req, res)=>{
 
 //Create book route
 router.post('/', upload.single('cover'), async (req,res)=>{
-    const fileName = req.file != null ? req.filename : null;
+    const fileName = req.file != null ? req.file.filename : null;
     const book = new Book({
         title: req.body.title,
         author: req.body.author,
@@ -41,16 +41,19 @@ router.post('/', upload.single('cover'), async (req,res)=>{
         description: req.body.description
     })
 
+    // const newBook = await book.save();
+    //     //req.redirect(`books/${newBook.id}`)
+    //     req.redirect('books');
+
     try{
         const newBook = await book.save();
         //req.redirect(`books/${newBook.id}`)
-        req.redirect('books');
+        res.redirect('books');
     }
     catch{
         renderNewPage(res, book, true);
 
     }
-    // res.send("Create book")
 });
 
 async function renderNewPage(res, book, hasError = false){
